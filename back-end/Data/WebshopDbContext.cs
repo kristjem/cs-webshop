@@ -14,4 +14,15 @@ public class WebshopDbContext : DbContext
 
     public DbSet<Produkt> Produkter { get; set; } // Representerer tabellen for produkter i databasen
         = null!;
+
+    // Fluent API brukes for å konfigurere modellene våre i databasen, for eksempel presisjon på desimaler,
+    // det holder databasekonfigurasjonen samlet i DbContext
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Produkt>()
+            .Property(p => p.Pris)
+            .HasPrecision(18, 2);
+    }
 }
