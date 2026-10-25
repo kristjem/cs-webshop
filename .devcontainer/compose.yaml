@@ -3,6 +3,9 @@ services:
   app:
     image: devcontainer-app:latest
 
+    environment:
+      ConnectionStrings__Webshop: "Server=sqlserver,1433;Database=Webshop;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True"
+
     volumes:
       - ..:/workspace:cached
 
