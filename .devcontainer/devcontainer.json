@@ -2,8 +2,8 @@
 {
   "name": "CS Webshop",
   "dockerComposeFile": "compose.yaml",
-  "runServices": ["app", "sqlserver"],
   "service": "app",
+  "runServices": ["app", "sqlserver"],
   "workspaceFolder": "/workspace",
   "remoteUser": "vscode",
   "forwardPorts": [3000, 5000],
