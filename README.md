@@ -1,80 +1,85 @@
 # CS Webshop
 
-A full-stack e-commerce application built with **ASP.NET Core, C#, Next.js, TypeScript, and SQL Server**.
+En fullstack nettbutikk utviklet med **ASP.NET Core, C#, Next.js, TypeScript og SQL Server**.
 
-The project demonstrates the development of a modern web application with a REST API, relational database, authentication, product management, shopping cart, and order processing.
+Prosjektet demonstrerer utvikling av en moderne webapplikasjon med REST API, relasjonsdatabase, autentisering, produktadministrasjon, handlekurv og ordrebehandling.
 
-Development is incremental, with an emphasis on clean architecture, maintainability, security, and practical use of the frameworks.
+Utviklingen skjer stegvis, med vekt på ryddig arkitektur, vedlikeholdbarhet, sikkerhet og praktisk bruk av rammeverkene.
 
-**Project status:** Early development. The ASP.NET Core API and containerized development environment are operational. Additional features are planned.
+**Prosjektstatus:** Tidlig utviklingsfase. ASP.NET Core API, containerbasert utviklingsmiljø, SQL Server-integrasjon og første migrasjon med Entity Framework Core er på plass. Øvrig funksjonalitet er planlagt.
 
-## 1. Technology Stack
+## 1. Teknologistakk
 
-| Component | Technology |
+| Komponent | Teknologi |
 |---|---|
 | Backend | C# / ASP.NET Core Web API |
-| Runtime | .NET 9 |
-| Frontend | Next.js / React |
-| Frontend language | TypeScript |
+| Kjøremiljø | .NET 9 |
+| Frontend | Next.js / React (planlagt) |
+| Frontend-språk | TypeScript (planlagt) |
 | Database | SQL Server 2022 Developer |
-| ORM | Entity Framework Core 9 (planned) |
-| Authentication | ASP.NET Core Identity (planned) |
+| ORM | Entity Framework Core 9 |
+| Autentisering | ASP.NET Core Identity (planlagt) |
 | API | REST / JSON |
-| Development environment | VS Code / Dev Containers |
-| Containerization | Docker / Docker Compose |
-| Version control | Git |
+| Utviklingsmiljø | VS Code / Dev Containers |
+| Containerisering | Docker / Docker Compose |
+| Versjonskontroll | Git |
 
-The project currently targets .NET 9. Framework support and upgrade requirements should be reviewed before production deployment.
+Prosjektet bruker foreløpig .NET 9. Støtteperioder og behov for oppgradering må vurderes før eventuell produksjonssetting.
 
-## 2. Architecture
+## 2. Arkitektur
 
-The application is organized in a single repository containing a separate frontend and backend.
+Applikasjonen er organisert i ett Git-repository med separat frontend og backend.
 
 ```text
-                  Browser
-                     |
-                     v
-              Next.js / React
-                  Frontend
-                     |
-                  HTTP/JSON
-                     |
-                     v
-               ASP.NET Core
-                  Web API
-                     |
-                     v
-             Entity Framework Core
-                     |
-                     v
-                 SQL Server
+                   Nettleser
+                       |
+                       v
+                Next.js / React
+                   Frontend
+                  (planlagt)
+                       |
+                    HTTP/JSON
+                       |
+                       v
+                 ASP.NET Core
+                    Web API
+                       |
+                       v
+               Entity Framework Core
+                       |
+                       v
+                   SQL Server
 ```
 
 ### Backend
 
-The backend is an ASP.NET Core Web API application using controller-based routing.
+Backend er en ASP.NET Core Web API-applikasjon med controllerbasert ruting.
 
-Its responsibilities will include business logic, request validation, authentication, authorization, and database access.
+Den skal håndtere forretningslogikk, validering, autentisering, autorisasjon og databasetilgang.
+
+Backend inneholder foreløpig en EF Core-databasekontekst og en enkel produktmodell.
 
 ### Frontend
 
-The frontend will be developed with Next.js, React, and TypeScript.
+Frontend skal utvikles med Next.js, React og TypeScript.
 
-It will communicate with the backend through the API rather than accessing the database directly.
+Den skal kommunisere med backend gjennom API-et, uten direkte tilgang til databasen.
 
 ### Database
 
-SQL Server is used as the relational database.
+SQL Server brukes som relasjonsdatabase.
 
-Entity Framework Core will provide object-relational mapping, database migrations, and model configuration.
+Entity Framework Core håndterer objekt-relasjonell mapping (ORM), modellkonfigurasjon og databasemigrasjoner.
 
-### Application design
+Den første migrasjonen oppretter tabellen `Produkter`, basert på C#-klassen `Produkt`.
 
-The backend is designed as a monolithic application with a single database. Frontend and backend run as separate processes during development.
+### Applikasjonsdesign
 
-The architecture favors straightforward components and clear responsibilities over unnecessary abstraction or microservices.
+Backend bygges som en monolittisk applikasjon med én database. Frontend og backend kjøres som separate prosesser under utvikling.
 
-## 3. Repository Structure
+Arkitekturen prioriterer tydelig ansvarsfordeling og enkle løsninger fremfor unødvendige abstraksjoner og mikrotjenester.
+
+## 3. Prosjektstruktur
 
 ```text
 cs-webshop/
@@ -82,70 +87,90 @@ cs-webshop/
 │   ├── Dockerfile
 │   ├── compose.yaml
 │   ├── devcontainer.json
-│   └── .env                  # Local, not committed
+│   ├── .env.example
+│   └── .env                  # Lokal, ikke versjonert
 │
 ├── back-end/
 │   ├── Controllers/
+│   ├── Data/
+│   │   └── WebshopDbContext.cs
+│   ├── Migrations/
+│   │   ├── *_OpprettProdukter.cs
+│   │   ├── *_OpprettProdukter.Designer.cs
+│   │   └── WebshopDbContextModelSnapshot.cs
+│   ├── Modeller/
+│   │   └── Produkt.cs
 │   ├── Properties/
 │   ├── Program.cs
 │   ├── appsettings.json
 │   ├── appsettings.Development.json
 │   └── Webshop.Api.csproj
 │
-├── front-end/                # Planned Next.js application
-├── tests/                    # Planned automated tests
+├── front-end/                # Planlagt Next.js-applikasjon
+├── tests/                    # Planlagte automatiserte tester
 │
 ├── .gitignore
 ├── Webshop.sln
 └── README.md
 ```
 
-Additional backend directories, including models, DTOs, services, data access, and migrations, will be introduced as the application develops.
+Flere mapper i backend, blant annet for DTO-er og tjenester, opprettes etter hvert som applikasjonen utvikles.
 
-## 4. Development Environment
+## 4. Utviklingsmiljø
 
-The development environment uses VS Code, Dev Containers, and Docker Compose.
+Utviklingsmiljøet bruker VS Code, Dev Containers og Docker Compose.
 
-Docker Compose defines two services:
+Docker Compose definerer to tjenester:
 
-| Service | Description |
+| Tjeneste | Beskrivelse |
 |---|---|
-| `app` | Development container with .NET SDK and Node.js |
-| `sqlserver` | SQL Server 2022 Developer database |
+| `app` | Utviklingscontainer med .NET SDK og Node.js |
+| `sqlserver` | Databasecontainer med SQL Server 2022 Developer |
 
-The repository is mounted inside the development container at `/workspace`.
+Prosjektmappen monteres i utviklingscontaineren som `/workspace`.
 
-SQL Server uses a named Docker volume to preserve database files across container restarts.
+SQL Server bruker et navngitt Docker-volum, slik at databasedata beholdes ved omstart og gjenskaping av containere, så lenge volumet ikke slettes.
 
-### Prerequisites
+### Forutsetninger
 
 - Git
 - Visual Studio Code
-- Dev Containers extension
-- Docker Engine with Docker Compose
-- WSL2 with a Linux distribution when developing on Windows
+- Dev Containers-utvidelsen
+- Docker med Docker Compose
+- WSL2 med en Linux-distribusjon ved utvikling på Windows
 
-The .NET SDK and Node.js are provided by the development container.
+.NET SDK og Node.js er inkludert i utviklingscontaineren.
 
-### Getting Started
+### Kom i gang
 
-1. Clone the repository.
-2. Create `.devcontainer/.env` with a strong database password.
-3. Open the repository in VS Code.
-4. Build the development image if necessary.
-5. Run **Dev Containers: Reopen in Container**.
+1. Klon repositoryet.
+2. Opprett `.devcontainer/.env` fra eksempelfilen.
+3. Angi et sterkt passord for SQL Server.
+4. Åpne prosjektet i VS Code.
+5. Bygg Docker-imaget for utviklingscontaineren.
+6. Velg **Dev Containers: Reopen in Container**.
+7. Kontroller at både `app` og `sqlserver` kjører.
+8. Kjør databasemigrasjonene som beskrevet i kapittel 6.
 
-Example `.devcontainer/.env`:
+Opprett lokal miljøfil:
 
-```dotenv
-MSSQL_SA_PASSWORD=<your-strong-password>
+```bash
+cp .devcontainer/.env.example .devcontainer/.env
 ```
 
-Never commit this file or real credentials to version control.
+Rediger deretter `.devcontainer/.env`:
 
-### Development image
+```dotenv
+MSSQL_SA_PASSWORD=ReplaceWithStrongPassword123!
+```
 
-The current Compose configuration references a locally built development image:
+Erstatt eksempelpassordet med ditt eget.
+
+**Viktig:** `.env` skal aldri committes til Git. `.env.example` skal versjoneres.
+
+### Bygging av utviklingsimage
+
+Den nåværende Docker Compose-konfigurasjonen bruker et lokalt bygget image:
 
 ```yaml
 services:
@@ -153,7 +178,7 @@ services:
     image: devcontainer-app:latest
 ```
 
-Build the image from the repository root:
+Bygg imaget fra rotmappen i prosjektet:
 
 ```bash
 docker build \
@@ -162,219 +187,316 @@ docker build \
   .devcontainer
 ```
 
-This is a temporary workaround for a compatibility issue encountered with the Dev Containers build process. The setup may be simplified later.
+Dette er foreløpig en løsning på et kompatibilitetsproblem med byggeprosessen i Dev Containers. Oppsettet kan forenkles senere.
 
-## 5. Running the Backend
+### Nettverk mellom containere
 
-The ASP.NET Core project is located in `back-end/` and registered in `Webshop.sln`.
+Begge tjenestene skal kjøre i samme Docker Compose-prosjekt.
 
-### Verify the SDK
+Innenfor Docker-nettverket kobler backend seg til SQL Server via vertsnavnet `sqlserver` og port `1433`.
+
+SQL Server-porten er også eksponert på vertsmaskinens loopback-adresse, slik at databasen kan administreres med lokale verktøy.
+
+## 5. Kjøre backend
+
+ASP.NET Core-prosjektet ligger i `back-end/` og er registrert i `Webshop.sln`.
+
+### Kontroller .NET SDK
 
 ```bash
 dotnet --version
 ```
 
-### Build the solution
+### Bygg løsningen
 
-From the repository root:
+Fra prosjektets rotmappe:
 
 ```bash
 dotnet build Webshop.sln
 ```
 
-### Start the API
+### Start API-et
 
 ```bash
 cd back-end
 dotnet run --urls http://0.0.0.0:5000
 ```
 
-The API will be available at:
+API-et blir tilgjengelig på:
 
 `http://localhost:5000`
 
-### Example endpoint
+### Eksempelendepunkt
 
-The initial ASP.NET Core template includes:
+Den opprinnelige ASP.NET Core-malen inneholder:
 
 `GET http://localhost:5000/weatherforecast`
 
-This endpoint returns sample JSON data and confirms that the API is running correctly.
+Dette endepunktet returnerer eksempeldata som JSON og kan brukes til å kontrollere at API-et fungerer.
 
-It will be replaced by application-specific endpoints.
+Det skal senere erstattes av endepunkter for nettbutikken.
 
-## 6. Database Configuration
+## 6. Database og Entity Framework Core
 
-SQL Server 2022 Developer runs as a separate Docker container.
+SQL Server 2022 Developer kjører i en separat Docker-container.
 
-For local development, the database is exposed on port `1433`, bound to the host loopback interface.
+Ved lokal utvikling er databasen tilgjengelig på port `1433`, begrenset til vertsmaskinens loopback-adresse.
 
-### Connecting with SQL Server Management Studio
+### Koble til med SQL Server Management Studio
 
-| Setting | Value |
+| Innstilling | Verdi |
 |---|---|
 | Server | `localhost,1433` |
-| Authentication | SQL Server Authentication |
-| Username | `sa` |
-| Password | Value configured in `.devcontainer/.env` |
+| Autentisering | SQL Server Authentication |
+| Brukernavn | `sa` |
+| Passord | Verdien i `.devcontainer/.env` |
+| Database | `Webshop`, etter migrering |
 
-Trusting the server certificate may be necessary in the local development environment.
+I utviklingsmiljøet kan det være nødvendig å aktivere tillit til serversertifikatet.
 
-### Backend database connection
+### Tilkobling fra backend
 
-Within the Docker Compose network, the backend will use the hostname `sqlserver`.
+Backend får tilkoblingsstrengen gjennom miljøvariabelen `ConnectionStrings__Webshop`, definert i Docker Compose.
 
-Database credentials must be supplied through configuration or environment variables rather than hardcoded in source files.
+```yaml
+environment:
+  ConnectionStrings__Webshop: "Server=sqlserver,1433;Database=Webshop;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=True"
+```
+
+ASP.NET Core tolker doble understreker (`__`) i miljøvariabelnavn som skilletegn mellom konfigurasjonsseksjoner.
+
+Tilkoblingsstrengen hentes i `Program.cs` med:
+
+```csharp
+builder.Configuration.GetConnectionString("Webshop")
+```
+
+`WebshopDbContext` registreres gjennom dependency injection og konfigureres til å bruke SQL Server.
+
+Passord og andre hemmeligheter skal ikke hardkodes eller lagres i Git.
+
+Bruk av `sa` og et sertifikat som er klarert uten validering, er begrenset til lokal utvikling. Ved produksjonssetting skal tilgangen begrenses og tilkoblingen sikres.
 
 ### Entity Framework Core
 
-Planned database functionality includes:
+Den første databaseintegrasjonen består av:
 
-- A dedicated `DbContext`.
-- Entity classes and relationship configuration.
-- Database constraints and indexes.
-- Schema management through EF Core migrations.
-- Automatic migration application in the local development environment.
-- Repeatable initialization of sample data.
+- **`Produkt`** – C#-klasse som representerer et produkt.
+- **`WebshopDbContext`** – databasekontekst med `DbSet<Produkt> Produkter`.
+- **SQL Server-provider** – lar EF Core kommunisere med SQL Server.
+- **Fluent API-konfigurasjon** – angir at `Pris` skal lagres som `decimal(18,2)`.
+- **`OpprettProdukter`** – migrasjon som oppretter det første databaseskjemaet.
 
-Database integration has not yet been implemented in the API.
+Produktmodellen har følgende egenskaper:
 
-## 7. Domain Model
-
-The application will support the following core entities:
-
-| Entity | Responsibility |
+| Egenskap | SQL Server-datatype |
 |---|---|
-| User | Accounts, profile information, and authentication |
-| Role | Authorization and access levels |
-| Membership | Membership tiers and discounts |
-| Product | Product details, pricing, and inventory |
-| Brand | Product brands |
-| Category | Product classification |
-| Order | Shopping carts and placed orders |
-| OrderItem | Products, quantities, and pricing within orders |
+| `Id` | `int`, automatisk generert primærnøkkel |
+| `Navn` | `nvarchar(max)` |
+| `Beskrivelse` | `nvarchar(max)` |
+| `Pris` | `decimal(18,2)` |
+| `Lagerbeholdning` | `int` |
+| `ErAktiv` | `bit` |
 
-### Domain Design Considerations
+Flere begrensninger, indekser, relasjoner og modeller legges til etter hvert.
 
-**Shopping carts:** A shopping cart may be represented as an order with a draft or cart status, reducing duplication between cart and order models.
+### Databasemigrasjoner
 
-**Historical pricing:** Order items should retain relevant price and discount snapshots so historical orders remain accurate after product prices change.
+Entity Framework Core bruker migrasjoner for å holde oversikt over endringer i databaseskjemaet.
 
-**Inventory:** Checkout operations must validate stock availability and handle concurrent updates appropriately.
+Den første migrasjonen er opprettet og kjørt mot SQL Server.
 
-**Product deletion:** Soft deletion may be used to hide products while preserving references from historical orders.
+For et nytt utviklingsmiljø kjøres eksisterende migrasjoner fra utviklingscontaineren:
 
-**Data integrity:** Unique constraints, foreign keys, and appropriate database constraints will protect relational consistency.
+```bash
+cd /workspace/back-end
+dotnet ef database update
+```
 
-The final entity model and relationships will be established during implementation.
+EF Core CLI-verktøyet (`dotnet-ef`, versjon 9) må være installert.
 
-## 8. Authentication and Authorization
+Installer ved behov:
 
-ASP.NET Core Identity is planned for account and role management.
+```bash
+dotnet tool install --global dotnet-ef --version "9.*"
+```
 
-The authentication system will support:
+Etter endringer i EF Core-modellene kan en ny migrasjon opprettes med:
 
-- Registration using a unique email address.
-- Secure password hashing.
-- User login and logout.
-- Role-based authorization.
-- Administrative access to protected functionality.
+```bash
+dotnet ef migrations add Migrasjonsnavn
+```
 
-The authentication mechanism between Next.js and ASP.NET Core will be designed to avoid exposing sensitive credentials or tokens unnecessarily.
+Kjør deretter migrasjonen mot databasen:
 
-Authentication has not yet been implemented.
+```bash
+dotnet ef database update
+```
 
-## 9. Planned API Features
+Tabellen `__EFMigrationsHistory` holder oversikt over hvilke migrasjoner som er utført.
 
-The API is expected to provide functionality for:
+Migrasjoner kjøres foreløpig manuelt under utvikling.
 
-- User registration and authentication.
-- User and role administration.
-- Product management.
-- Brands and categories.
-- Product search and filtering.
-- Membership tiers and discounts.
-- Shopping cart management.
-- Checkout and order processing.
-- Order history.
-- Inventory management.
-- Development data initialization.
+### Kontroller databasen
 
-Routes, DTOs, validation rules, and response formats will be defined as each feature is implemented.
+Koble til SQL Server med SSMS og kjør:
 
-OpenAPI documentation is also planned.
+```sql
+USE Webshop;
 
-## 10. Sample Data Initialization
+SELECT * FROM dbo.Produkter;
 
-A repeatable initialization mechanism will be developed to populate the database with sample records.
+SELECT * FROM dbo.__EFMigrationsHistory;
+```
 
-It should:
+Tabellen `Produkter` er tom frem til produkter legges inn.
 
-- Create predefined roles and membership tiers.
-- Populate sample categories, brands, and products.
-- Avoid duplicate records when executed repeatedly.
-- Be restricted to the development environment or otherwise appropriately secured.
+### Offisiell Microsoft-dokumentasjon
 
-The initialization mechanism is not yet implemented.
+- [Entity Framework Core – oversikt](https://learn.microsoft.com/en-us/ef/core/)
+- [Konfigurering av DbContext](https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/)
+- [Databasemigrasjoner](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/)
+- [EF Core CLI-verktøy](https://learn.microsoft.com/en-us/ef/core/cli/dotnet)
+- [SQL Server-provider](https://learn.microsoft.com/en-us/ef/core/providers/sql-server/)
+
+## 7. Domenemodell
+
+Nettbutikken skal etter planen støtte følgende sentrale entiteter:
+
+| Entitet | Ansvar | Status |
+|---|---|---|
+| Bruker | Brukerkonto, profil og autentisering | Planlagt |
+| Rolle | Tilgangsstyring | Planlagt |
+| Medlemskap | Medlemsnivåer og rabatter | Planlagt |
+| Produkt | Produktinformasjon, pris og lagerbeholdning | Første modell implementert |
+| Merke | Produktmerker | Planlagt |
+| Kategori | Produktkategorisering | Planlagt |
+| Ordre | Handlekurv og bestillinger | Planlagt |
+| Ordrelinje | Produkter, antall og priser i en ordre | Planlagt |
+
+### Vurderinger rundt domenemodellen
+
+**Handlekurv:** En handlekurv kan representeres som en ordre med status for utkast eller handlekurv. Dette kan redusere duplisering mellom handlekurv og ordre.
+
+**Historiske priser:** Ordrelinjer bør lagre pris og rabatt på bestillingstidspunktet, slik at gamle ordrer forblir korrekte selv om produktprisene endres.
+
+**Lagerbeholdning:** Ved fullføring av ordre må lagerbeholdningen kontrolleres, også når flere kunder bestiller samtidig.
+
+**Sletting av produkter:** Myk sletting (soft delete) kan brukes for å skjule produkter uten å ødelegge historiske ordrereferanser.
+
+**Dataintegritet:** Unike begrensninger, fremmednøkler og andre databasebegrensninger skal bidra til konsistente data.
+
+Endelig domenemodell og relasjoner fastsettes under implementeringen.
+
+## 8. Autentisering og autorisasjon
+
+ASP.NET Core Identity er planlagt brukt til bruker- og rolleadministrasjon.
+
+Løsningen skal støtte:
+
+- Registrering med unik e-postadresse.
+- Sikker hashing av passord.
+- Innlogging og utlogging.
+- Rollebasert tilgangsstyring.
+- Beskyttede administrative funksjoner.
+
+Autentiseringen mellom Next.js og ASP.NET Core skal utformes slik at sensitive opplysninger og tokens ikke eksponeres unødvendig.
+
+Autentisering er foreløpig ikke implementert.
+
+## 9. Planlagt API-funksjonalitet
+
+API-et skal etter planen håndtere:
+
+- Brukerregistrering og autentisering.
+- Administrasjon av brukere og roller.
+- Produktadministrasjon.
+- Merker og kategorier.
+- Produktsøk og filtrering.
+- Medlemsnivåer og rabatter.
+- Handlekurv.
+- Ordrebehandling.
+- Ordrehistorikk.
+- Lagerstyring.
+- Initialisering av testdata.
+
+Ruter, DTO-er, validering og responsformater defineres etter hvert som funksjonaliteten utvikles.
+
+OpenAPI-dokumentasjon er også planlagt.
+
+## 10. Initialisering av eksempeldata
+
+Det skal utvikles en repeterbar mekanisme for å fylle databasen med eksempeldata.
+
+Den skal kunne:
+
+- Opprette forhåndsdefinerte roller og medlemsnivåer.
+- Opprette eksempelkategorier, merker og produkter.
+- Unngå duplikater ved gjentatt kjøring.
+- Begrenses til utviklingsmiljøet eller sikres på annen egnet måte.
+
+Denne funksjonaliteten er foreløpig ikke implementert.
 
 ## 11. Testing
 
-Automated tests will be added under `tests/`.
+Automatiserte tester skal legges i `tests/`.
 
-Planned test coverage includes:
+Planlagt testdekning omfatter:
 
-- API request validation.
-- Product and category operations.
-- Authentication and authorization.
-- Shopping cart operations.
-- Order processing.
-- Stock management.
-- Discount calculations.
-- Database integration.
+- Validering av API-forespørsler.
+- Produkt- og kategorihåndtering.
+- Autentisering og autorisasjon.
+- Handlekurv.
+- Ordrebehandling.
+- Lagerstyring.
+- Rabattberegninger.
+- Databaseintegrasjon.
 
-The test framework and project structure will be selected during implementation.
+Testrammeverk og prosjektstruktur velges under implementeringen.
 
-## 12. Development Principles
+## 12. Utviklingsprinsipper
 
-The project follows several guiding principles.
+Prosjektet bygger på følgende prinsipper:
 
-**Incremental development:** Implement and validate features in small, manageable steps.
+**Stegvis utvikling:** Funksjonalitet implementeres og testes i små, oversiktlige steg.
 
-**Framework-first approach:** Prefer established ASP.NET Core and Entity Framework Core functionality over unnecessary custom implementations.
+**Bruk av etablerte rammeverk:** Foretrekk funksjonalitet som allerede finnes i ASP.NET Core og Entity Framework Core, fremfor unødvendige egenutviklede løsninger.
 
-**Separation of concerns:** Keep HTTP handling, business rules, and persistence responsibilities clearly defined.
+**Tydelig ansvarsfordeling:** HTTP-håndtering, forretningsregler og databasetilgang skal ha tydelige ansvarsområder.
 
-**Maintainability:** Favor readable code and understandable abstractions.
+**Vedlikeholdbarhet:** Lesbar kode og forståelige abstraksjoner prioriteres.
 
-**Security:** Apply appropriate validation, authorization, secret management, and password-handling practices.
+**Sikkerhet:** Validering, autorisasjon, sikker håndtering av hemmeligheter og passord skal ivaretas.
 
-**Data integrity:** Use database constraints and transactions where necessary.
+**Dataintegritet:** Databasebegrensninger og transaksjoner brukes der det er nødvendig.
 
-**Consistent naming:** Domain-specific C# identifiers may use Norwegian terminology, while framework conventions and standardized technical identifiers retain their established names.
+**Navngiving:** Norske domenebegreper brukes der det er naturlig. Etablerte C#/.NET-konvensjoner, rammeverksnavn og standardiserte tekniske betegnelser beholdes.
 
-**Testability:** Design components so important business rules can be verified through automated tests.
+**Testbarhet:** Viktige forretningsregler skal kunne verifiseres med automatiserte tester.
 
-## 13. Development Roadmap
+## 13. Utviklingsplan
 
-| Phase | Description | Status |
+| Fase | Beskrivelse | Status |
 |---|---|---|
-| 1 | Git repository, Docker, and Dev Container | Complete |
-| 2 | ASP.NET Core Web API initialization | Complete |
-| 3 | Next.js and TypeScript initialization | Planned |
-| 4 | SQL Server integration and EF Core setup | Planned |
-| 5 | Domain models and migrations | Planned |
-| 6 | Sample data and product API | Planned |
-| 7 | Authentication and authorization | Planned |
-| 8 | Cart, discounts, and orders | Planned |
-| 9 | Frontend integration and UI | Planned |
-| 10 | Automated testing and documentation | Planned |
+| 1 | Git, Docker og Dev Container | Ferdig |
+| 2 | Oppsett av ASP.NET Core Web API | Ferdig |
+| 3 | Oppsett av Next.js og TypeScript | Planlagt |
+| 4 | SQL Server-integrasjon og EF Core | Ferdig |
+| 5 | Første produktmodell og migrasjon | Ferdig |
+| 6 | Eksempeldata og produkt-API | Planlagt |
+| 7 | Autentisering og autorisasjon | Planlagt |
+| 8 | Handlekurv, rabatter og ordrer | Planlagt |
+| 9 | Frontend-integrasjon og brukergrensesnitt | Planlagt |
+| 10 | Automatisert testing og dokumentasjon | Planlagt |
 
-## 14. Current Status
+## 14. Nåværende status
 
-The initial development environment is operational, and the ASP.NET Core API builds and runs successfully.
+Det containerbaserte utviklingsmiljøet fungerer, og ASP.NET Core API-et kan bygges og kjøres.
 
-The frontend, database integration, domain entities, authentication, and e-commerce functionality are still under development.
+SQL Server 2022 og Entity Framework Core 9 er konfigurert. Den første produktmodellen og migrasjonen `OpprettProdukter` er implementert, og databasen `Webshop` er opprettet.
+
+Produkt-API, frontend, autentisering, handlekurv og ordrebehandling gjenstår.
 
 ---
 
-**CS Webshop** — Full-stack e-commerce application under active development.
+**CS Webshop** – Fullstack nettbutikk under utvikling.
